@@ -1,0 +1,38 @@
+# Local runtime and generated Python files
+face-runtime/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Backups and the duplicate project copy
+/backups/
+/appp/
+*.zip
+*.7z
+*.rar
+*.bak
+*.download
+
+# Dependencies, logs, editor and operating-system files
+node_modules/
+*.log
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local configuration, credentials, and user data exports
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+*.sqlite
+*.sqlite3
+*.db

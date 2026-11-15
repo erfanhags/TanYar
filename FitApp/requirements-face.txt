@@ -1,0 +1,4 @@
+# Windows CPU runtime, matching the HOG/128-d pipeline in Smart Attendance.
+dlib-bin==20.0.1.post1
+numpy==1.26.4
+Pillow>=10,<14

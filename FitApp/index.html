@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta name="theme-color" content="#0d0d10">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>تن‌یار — تغذیه، اسکن غذا و تمرین</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- نوار بالایی -->
+  <header class="app-topbar">
+    <div class="brand-wrap">
+      <div class="brand-mark">ت</div>
+      <div class="brand-title">
+        <b>تن‌یار</b>
+        <small id="topUserSub">کنترل تغذیه و تمرین</small>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button type="button" id="themeBtn" class="icon-btn" title="تغییر تم">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <span id="themeLbl" class="small">روز</span>
+      </button>
+      <button type="button" id="logoutBtn" class="icon-btn" hidden title="خروج از حساب">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>خروج</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== صفحه ورود و ثبت‌نام ==================== -->
+  <section id="authScreen" class="auth-wrapper">
+    <div class="auth-hero">
+      <span class="eyebrow">نسخه همراه</span>
+      <h1>برنامه‌ریزی تغذیه و تمرین</h1>
+      <p class="muted small">محاسبه دقیق درصد چربی و BMI، رژیم غذایی شخصی و ثبت کالری روزانه.</p>
+    </div>
+
+    <div class="auth-tabs" role="tablist">
+      <button type="button" class="auth-tab active" data-auth-tab="signup">ساخت پروفایل جدید</button>
+      <button type="button" class="auth-tab" data-auth-tab="login">ورود به حساب</button>
+    </div>
+
+    <!-- پنل ورود -->
+    <div id="loginPanel" class="card" hidden>
+      <div id="savedUsersSection" hidden>
+        <h3>حساب‌های ذخیره‌شده روی دستگاه</h3>
+        <div id="savedUsersList" class="saved-users-list" style="margin-top:10px"></div>
+        <hr style="border:0;border-top:1px solid var(--border);margin:16px 0">
+      </div>
+
+      <h3>ورود با نام کاربری</h3>
+      <form id="loginForm" novalidate style="margin-top:10px">
+        <label class="field">
+          <span class="field-label">نام کاربری یا موبایل</span>
+          <div class="input-box"><input id="liUsername" autocomplete="username" placeholder="مثلاً misagh"></div>
+        </label>
+        <label class="field">
+          <span class="field-label">رمز عبور</span>
+          <div class="input-box"><input id="liPass" type="password" autocomplete="current-password" placeholder="رمز عبور"></div>
+        </label>
+        <div id="loginErr" class="form-error"></div>
+        <button type="submit" class="btn btn-primary btn-block">ورود به حساب</button>
+      </form>
+      <div class="face-login-entry">
+        <span class="small muted">یا با چهره‌ی ثبت‌شده وارد شوید</span>
+        <button type="button" id="faceLoginBtn" class="btn btn-secondary btn-block">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3m8 0h3a1 1 0 0 1 1 1v3m0 8v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 10h.01M16 10h.01M9 15c1.5 1.4 4.5 1.4 6 0M12 9v3"/></svg>
+          ورود با تشخیص چهره
+        </button>
+        <p class="small muted" style="margin:0">بار اول با حساب خود وارد شوید و از «پروفایل»، چهره‌تان را ثبت کنید.</p>
+      </div>
+    </div>
+
+    <!-- پنل ثبت‌نام ۳ مرحله‌ای -->
+    <div id="signupPanel" class="card">
+      <ol class="wizard-steps" id="wizStepsBar">
+        <li data-wstep="1" class="active"><span>۰۱</span>حساب کاربری</li>
+        <li data-wstep="2"><span>۰۲</span>ترکیب بدنی</li>
+        <li data-wstep="3"><span>۰۳</span>انتخاب هدف</li>
+      </ol>
+
+      <!-- گام ۱ -->
+      <form id="wizForm1" novalidate>
+        <label class="field">
+          <span class="field-label">نام و نام خانوادگی</span>
+          <div class="input-box"><input id="suName" placeholder="مثلاً میثاق جواهریان"></div>
+        </label>
+        <div class="grid-2">
+          <label class="field">
+            <span class="field-label">نام کاربری (یا موبایل)</span>
+            <div class="input-box"><input id="suUsername" autocomplete="username" placeholder="مثلاً misagh"></div>
+          </label>
+          <label class="field">
+            <span class="field-label">رمز عبور دلخواه</span>
+            <div class="input-box"><input id="suPass" type="password" autocomplete="new-password" placeholder="اختیاری"></div>
+          </label>
+        </div>
+        <div id="wizErr1" class="form-error"></div>
+        <button type="submit" class="btn btn-primary btn-block">ادامه و ثبت مشخصات بدن</button>
+      </form>
+
+      <!-- گام ۲ -->
+      <form id="wizForm2" hidden novalidate>
+        <div class="grid-2">
+          <div class="field">
+            <span class="field-label">جنسیت</span>
+            <div class="segmented">
+              <label><input type="radio" name="suGender" value="male" checked><span>آقا</span></label>
+              <label><input type="radio" name="suGender" value="female"><span>خانم</span></label>
+            </div>
+          </div>
+          <label class="field">
+            <span class="field-label">سن</span>
+            <div class="input-box"><input id="suAge" inputmode="numeric" placeholder="۲۴"><em>سال</em></div>
+          </label>
+          <label class="field">
+            <span class="field-label">قد</span>
+            <div class="input-box"><input id="suHeight" inputmode="decimal" placeholder="۱۷۸"><em>سانتی‌متر</em></div>
+          </label>
+          <label class="field">
+            <span class="field-label">وزن فعلی</span>
+            <div class="input-box"><input id="suWeight" inputmode="decimal" placeholder="۷۸"><em>کیلوگرم</em></div>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label">سطح فعالیت روزانه</span>
+          <select id="suActivity" class="select-input">
+            <option value="1.2">کم‌تحرک (کار پشت میز، بدون ورزش)</option>
+            <option value="1.375" selected>تحرک نسبی (۱ تا ۳ روز ورزش در هفته)</option>
+            <option value="1.55">فعال (۳ تا ۵ جلسه تمرین منظم)</option>
+            <option value="1.725">بسیار فعال (ورزش سنگین یا کار فیزیکی)</option>
+          </select>
+        </label>
+
+        <div class="field">
+          <span class="field-label">کالری مصرفی روزانه فعلی (اختیاری)</span>
+          <div class="input-box" style="margin-bottom:8px">
+            <input id="suIntake" inputmode="numeric" placeholder="خالی بگذارید تا خودکار برآورد شود">
+            <em>kcal</em>
+          </div>
+          <div class="chips-row" id="suIntakePresets">
+            <button type="button" class="chip" data-kcal="1500">کم (~۱۵۰۰)</button>
+            <button type="button" class="chip" data-kcal="2000">متوسط (~۲۰۰۰)</button>
+            <button type="button" class="chip" data-kcal="2600">زیاد (~۲۶۰۰)</button>
+            <button type="button" class="chip" data-kcal="3200">خیلی زیاد (~۳۲۰۰)</button>
+          </div>
+        </div>
+
+        <details class="details-box">
+          <summary>ثبت سایز دور کمر و گردن برای دقت بالاتر درصد چربی (اختیاری)</summary>
+          <div class="details-body">
+            <p class="muted small">در صورت وارد کردن این مقادیر، درصد چربی با فرمول دقیق US Navy محاسبه می‌شود؛ در غیر این صورت بر اساس BMI و سن برآورد خواهد شد.</p>
+            <div class="grid-3">
+              <label class="field">
+                <span class="field-label">دور گردن</span>
+                <div class="input-box"><input id="suNeck" inputmode="decimal" placeholder="۳۸"><em>cm</em></div>
+              </label>
+              <label class="field">
+                <span class="field-label">دور کمر (روی ناف)</span>
+                <div class="input-box"><input id="suWaist" inputmode="decimal" placeholder="۸۶"><em>cm</em></div>
+              </label>
+              <label class="field" id="suHipWrap" hidden>
+                <span class="field-label">دور باسن</span>
+                <div class="input-box"><input id="suHip" inputmode="decimal" placeholder="۹۸"><em>cm</em></div>
+              </label>
+            </div>
+          </div>
+        </details>
+
+        <div id="wizErr2" class="form-error"></div>
+        <div class="actions-row">
+          <button type="submit" class="btn btn-primary" style="flex:1">محاسبه شاخص‌ها و انتخاب هدف</button>
+          <button type="button" id="wizBack1" class="btn btn-secondary">بازگشت</button>
+        </div>
+      </form>
+
+      <!-- گام ۳ -->
+      <form id="wizForm3" hidden novalidate>
+        <div id="wizLivePreview" class="preview-banner"></div>
+
+        <div class="field">
+          <span class="field-label">هدف شما چیست؟</span>
+          <div id="wizGoalsGrid" class="goal-options-grid"></div>
+        </div>
+
+        <div class="field">
+          <span class="field-label">برنامه تمرینی</span>
+          <div class="workout-mode-grid">
+            <label class="wmode-card">
+              <input type="radio" name="suWorkoutMode" value="gym" checked>
+              <div class="wmode-inner">
+                <b>بدنسازی باشگاهی</b>
+                <small>اسپلیت هفتگی + گیف حرکات</small>
+              </div>
+            </label>
+            <label class="wmode-card">
+              <input type="radio" name="suWorkoutMode" value="home">
+              <div class="wmode-inner">
+                <b>تمرین خانگی</b>
+                <small>وزن بدن و هوازی</small>
+              </div>
+            </label>
+            <label class="wmode-card">
+              <input type="radio" name="suWorkoutMode" value="none">
+              <div class="wmode-inner">
+                <b>بدون تمرین</b>
+                <small>فقط برنامه غذایی</small>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div id="suGymOpts" class="grid-2" style="margin-bottom:14px">
+          <label class="field">
+            <span class="field-label">سطح تمرینی</span>
+            <select id="suWorkoutLevel" class="select-input">
+              <option value="beginner">مبتدی</option>
+              <option value="medium" selected>متوسط</option>
+              <option value="advanced">پیشرفته</option>
+            </select>
+          </label>
+          <label class="field" id="suDaysWrap">
+            <span class="field-label">تعداد جلسات در هفته</span>
+            <select id="suWorkoutDays" class="select-input">
+              <option value="3">۳ جلسه در هفته</option>
+              <option value="4" selected>۴ جلسه در هفته</option>
+              <option value="5">۵ جلسه در هفته</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions-row">
+          <button type="submit" class="btn btn-primary" style="flex:1">ساخت برنامه و ورود</button>
+          <button type="button" id="wizBack2" class="btn btn-secondary">بازگشت</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================== محیط اصلی اپلیکیشن ==================== -->
+  <main id="mainScreen" class="app-container" hidden>
+
+    <!-- تب ۱: داشبورد و نمودارهای ترکیب بدنی -->
+    <section id="view-dashboard" class="app-view">
+      <div id="heroBanner" class="bento-top"></div>
+      <div id="warnBanner" class="warn-banner" hidden></div>
+
+      <div class="charts-2col">
+        <div class="card">
+          <div class="card-head">
+            <h3>
+              <svg class="ic" viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+              شاخص توده بدنی (BMI)
+            </h3>
+          </div>
+          <div id="bmiChartContainer"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>
+              <svg class="ic" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              درصد چربی بدن
+            </h3>
+            <button type="button" id="openMeasureBtn" class="btn btn-secondary btn-sm">ثبت سایز کمر/گردن</button>
+          </div>
+          <div id="bfChartContainer"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>تفکیک وزن بدن (توده عضلانی در برابر چربی)</h3>
+        </div>
+        <div id="bodyCompContainer"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>سهم درشت‌مغذی‌ها و تراز کالری</h3>
+          <button type="button" id="quickGoalSwitchBtn" class="btn btn-secondary btn-sm">تغییر هدف</button>
+        </div>
+        <div id="nutriChartContainer"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>روند تغییرات وزن</h3>
+          <form id="logWeightForm" class="actions-row" style="margin:0">
+            <div class="input-box" style="width:145px">
+              <input id="newWeightInput" inputmode="decimal" placeholder="وزن جدید" style="padding:7px 10px;font-size:0.84rem">
+              <em style="padding:0 8px">kg</em>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">ثبت وزن</button>
+          </form>
+        </div>
+        <div id="weightTrendContainer"></div>
+      </div>
+    </section>
+
+    <!-- تب ۲: برنامه غذایی و کالری‌شمار -->
+    <section id="view-diet" class="app-view" hidden>
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h2>برنامه غذایی و کالری‌شمار</h2>
+            <small class="muted" id="dietGoalSub"></small>
+          </div>
+          <div class="actions-row">
+            <button type="button" id="goToScannerBtn" class="btn btn-primary btn-sm">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              اسکن غذا با دوربین
+            </button>
+            <button type="button" id="openFoodModalBtn" class="btn btn-secondary btn-sm">ثبت دستی خوراکی</button>
+            <button type="button" id="regenDietBtn" class="btn btn-secondary btn-sm">چیدن مجدد هفته</button>
+          </div>
+        </div>
+        <div id="dietDaysBar" class="chips-row" style="margin-bottom:14px"></div>
+        <div id="dietTrackerSummary" class="tracker-grid"></div>
+      </div>
+
+      <div id="mealsGrid" class="meals-grid"></div>
+
+      <div id="extraFoodsCard" class="card" hidden>
+        <div class="card-head">
+          <h3>خوراکی‌های ثبت‌شده خارج از برنامه</h3>
+          <small class="muted">محاسبه‌شده بر اساس واحد انتخابی</small>
+        </div>
+        <div id="extraFoodsList" class="extra-log-list"></div>
+      </div>
+
+      <div id="dislikedCard" class="card" hidden>
+        <div class="card-head">
+          <h3>غذاهای حذف‌شده</h3>
+          <small class="muted">برای بازگرداندن کلیک کنید</small>
+        </div>
+        <div id="dislikedList" class="chips-row"></div>
+      </div>
+    </section>
+
+    <!-- تب ۳ (مرکزی): پنل تشخیص غذا با دوربین و مدل آفلاین روی دستگاه -->
+    <section id="view-scan" class="app-view" hidden>
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h2>تشخیص غذا از روی تصویر</h2>
+            <small class="muted" id="detectorStatusSub">موتور بینایی آفلاین MobileCLIP (اجرای مستقیم روی دستگاه · بدون نیاز به اینترنت و API)</small>
+          </div>
+          <button type="button" id="openModelInfoBtn" class="btn btn-secondary btn-sm">
+            <span id="modelStatusDot" class="dot lean-dot"></span>
+            <span id="modelStatusTxt">موتور آفلاین ONNX</span>
+          </button>
+        </div>
+
+        <!-- کادر دوربین و پیش‌نمایش عکس -->
+        <div class="scanner-stage" id="scannerStage">
+          <div class="reticle"><span></span></div>
+          <div id="scanBeam" class="scan-beam" hidden></div>
+
+          <!-- هاد شناور بالای دوربین زنده -->
+          <div id="scannerLiveHud" class="scanner-live-hud" hidden>
+            <div class="hud-pill live-pill">
+              <span class="hud-dot"></span>
+              <span>دوربین زنده</span>
+            </div>
+            <div id="liveTargetBadge" class="hud-target-badge" hidden>
+              <span id="liveTargetEmoji">🍎</span>
+              <span id="liveTargetText">سیب (۹۵٪) · ۱ عدد ≈ ۸۰ kcal</span>
+              <button type="button" id="liveQuickAddBtn" class="hud-quick-btn">+ ثبت سریع</button>
+            </div>
+          </div>
+
+          <div id="scannerPlaceholder" class="scanner-placeholder">
+            <div class="cam-circle">
+              <svg class="ic ic-lg" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <b style="display:block;color:#fff;margin-bottom:4px">دوربین را باز کنید یا عکس میوه و غذا را بارگذاری کنید</b>
+            <small>تشخیص خودکار سیب، موز، پرتقال، خیار، ماکارونی، برنج و بیش از ۴۰ نوع غذا به همراه محاسبه دقیق کالری</small>
+          </div>
+
+          <video id="camVideo" playsinline autoplay muted hidden></video>
+          <img id="scanPreviewImg" class="scan-preview-img" alt="پیش‌نمایش غذا" hidden>
+        </div>
+
+        <div class="actions-row" style="justify-content:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+          <button type="button" id="startCamBtn" class="btn btn-primary">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            باز کردن دوربین
+          </button>
+          <button type="button" id="capturePhotoBtn" class="btn btn-primary btn-pulse" hidden>
+            <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            ثبت عکس و بررسی کالری
+          </button>
+          <button type="button" id="flipCamBtn" class="btn btn-secondary" title="تغییر دوربین جلو / پشت" hidden>
+            <svg class="ic" viewBox="0 0 24 24"><path d="M20 10c0-4.418-3.582-8-8-8s-8 3.582-8 8h3l-4 4-4-4h3c0-5.523 4.477-10 10-10s10 4.477 10 10z"/></svg>
+            تغییر دوربین
+          </button>
+          <button type="button" id="toggleLiveScanBtn" class="btn btn-secondary btn-sm" hidden title="تشخیص خودکار پیاپی هنگام نشانه رفتن دوربین">
+            ⚡ تشخیص زنده: روشن
+          </button>
+          <button type="button" id="stopCamBtn" class="btn btn-secondary" hidden>بستن دوربین</button>
+
+          <label class="btn btn-secondary" style="cursor:pointer">
+            <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            انتخاب از گالری
+            <input id="galleryFileInput" type="file" accept="image/*" hidden>
+          </label>
+
+          <!-- فال‌بک دوربین مستقیم برای گوشی‌های موبایل بدون دسترسی وب‌کم -->
+          <input id="nativeCameraInput" type="file" accept="image/*" capture="environment" hidden>
+        </div>
+
+        <!-- نوار تست سریع برای نمونه‌های پرکاربرد -->
+        <div style="border-top:1px solid var(--border);padding-top:12px">
+          <span class="small muted" style="display:block;margin-bottom:8px">تست سریع با نمونه‌های پرکاربرد:</span>
+          <div class="chips-row" id="quickSimBar">
+            <button type="button" class="chip" data-sim-food="sf_apple">🍎 سیب (دانه‌ای)</button>
+            <button type="button" class="chip" data-sim-food="sf_banana">🍌 موز (دانه‌ای)</button>
+            <button type="button" class="chip" data-sim-food="sf_orange">🍊 پرتقال (دانه‌ای)</button>
+            <button type="button" class="chip" data-sim-food="sf_pasta">🍝 ماکارونی (گرمی)</button>
+            <button type="button" class="chip" data-sim-food="sf_chicken">🍗 سینه مرغ (گرمی)</button>
+            <button type="button" class="chip" data-sim-food="sf_rice">🍚 برنج (کفگیر)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- کارت نتیجه تشخیص هوشمند و محاسبه کالری -->
+      <div id="scanResultCard" class="card scan-result-card" hidden>
+        <div class="card-head">
+          <div>
+            <h3>نتیجه هوشمند تشخیص و کالری</h3>
+            <small id="scanResultMeta" class="muted"></small>
+          </div>
+          <div class="actions-row">
+            <button type="button" id="rescanBtn" class="btn btn-secondary btn-sm">اسکن مجدد</button>
+            <button type="button" id="manualFallbackBtn" class="btn btn-secondary btn-sm">جستجوی دستی</button>
+          </div>
+        </div>
+
+        <!-- باکس جشن و پیام موفقیت پس از ثبت -->
+        <div id="scanCelebrationBox" class="celebration-box" hidden></div>
+
+        <!-- بخش نمایش هیرو غذا و محاسبه‌گر زنده کالری -->
+        <div id="detectedHeroContainer"></div>
+
+        <!-- سایر حدس‌های هوش مصنوعی برای سوئیچ سریع -->
+        <div id="detectedAlternativesContainer" style="margin-top:14px" hidden></div>
+
+        <div id="detectedItemsBox" class="detected-list" hidden></div>
+      </div>
+    </section>
+
+    <!-- تب ۴: برنامه تمرینی (اختیاری) -->
+    <section id="view-workout" class="app-view" hidden>
+      <div id="noWorkoutBox" class="card" style="text-align:center;padding:38px 20px" hidden>
+        <h2>برنامه تمرینی غیرفعال است</h2>
+        <p class="muted" style="max-width:440px;margin:0 auto 20px">
+          پروفایل شما روی حالت «فقط برنامه غذایی» قرار دارد. در صورت تمایل می‌توانید هر زمان برنامه تمرینی متناسب با هدفتان را فعال کنید:
+        </p>
+        <div class="actions-row" style="justify-content:center">
+          <button type="button" class="btn btn-primary" data-enable-workout="gym">فعال‌سازی بدنسازی باشگاهی</button>
+          <button type="button" class="btn btn-secondary" data-enable-workout="home">فعال‌سازی تمرین خانگی</button>
+        </div>
+      </div>
+
+      <div id="activeWorkoutBox" hidden>
+        <div class="subtabs">
+          <button type="button" class="subtab active" data-wsub="plan">برنامه هفتگی</button>
+          <button type="button" class="subtab" data-wsub="bank">بانک حرکات و عضلات</button>
+          <button type="button" class="subtab" data-wsub="timer">تایمر و رکوردها</button>
+        </div>
+
+        <div id="wsub-plan">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3 id="workoutPlanTitle">برنامه تمرینی هفتگی</h3>
+                <small class="muted" id="workoutPlanSub"></small>
+              </div>
+              <div class="actions-row">
+                <button type="button" id="completeWorkoutBtn" class="btn btn-primary btn-sm">ثبت جلسه امروز</button>
+                <button type="button" id="regenWorkoutBtn" class="btn btn-secondary btn-sm">تغییر چیدمان</button>
+                <button type="button" id="disableWorkoutBtn" class="btn btn-danger btn-sm">حذف تمرین</button>
+              </div>
+            </div>
+            <p id="workoutCardioTip" class="small muted" style="margin:0"></p>
+          </div>
+          <div id="workoutDaysGrid" class="wday-grid"></div>
+        </div>
+
+        <div id="wsub-bank" hidden>
+          <div class="card">
+            <div class="card-head">
+              <h3>عضلات هدف</h3>
+              <button type="button" id="favFilterBtn" class="chip">حرکات منتخب (<span id="favCountLbl">۰</span>)</button>
+            </div>
+            <div id="muscleGroupBar" class="muscle-grid"></div>
+            <div class="input-box">
+              <input id="exSearchInput" placeholder="جستجوی حرکت (پرس سینه، اسکوات، زیربغل، ددلیفت...)">
+            </div>
+          </div>
+          <div id="exBankGrid" class="ex-bank-grid"></div>
+        </div>
+
+        <div id="wsub-timer" hidden>
+          <div class="charts-2col">
+            <div class="card" style="text-align:center">
+              <h3>تایمر ست و استراحت</h3>
+              <div class="grid-2" style="margin:12px 0">
+                <label class="field" style="margin:0">
+                  <span class="field-label">زمان ست (ثانیه)</span>
+                  <div class="input-box"><input id="workSecInput" type="number" min="10" max="600" value="60"></div>
+                </label>
+                <label class="field" style="margin:0">
+                  <span class="field-label">استراحت (ثانیه)</span>
+                  <div class="input-box"><input id="restSecInput" type="number" min="10" max="300" value="45"></div>
+                </label>
+              </div>
+              <div id="timerClock" class="timer-display">۰۰:۶۰</div>
+              <p id="timerStateLbl" class="muted small">آماده شروع</p>
+              <div class="actions-row" style="justify-content:center">
+                <button type="button" id="timerStartBtn" class="btn btn-primary">شروع</button>
+                <button type="button" id="timerPauseBtn" class="btn btn-secondary">توقف</button>
+                <button type="button" id="timerResetBtn" class="btn btn-secondary">بازنشانی</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>ثبات تمرینی و نشان‌ها</h3>
+              <div class="comp-grid" style="margin:12px 0 16px">
+                <div class="comp-stat">
+                  <span class="dot fat-dot"></span>
+                  <div><small>تداوم (استریک)</small><b id="streakStat">۰ روز</b></div>
+                </div>
+                <div class="comp-stat">
+                  <span class="dot lean-dot"></span>
+                  <div><small>مجموع جلسات</small><b id="totalWorkoutsStat">۰ جلسه</b></div>
+                </div>
+              </div>
+              <div id="medalsBox" class="medals-wrap"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- تب ۵: پروفایل و تنظیمات -->
+    <section id="view-settings" class="app-view" hidden>
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>هدف بدنی</h3>
+            <small class="muted">با تغییر هدف، کالری روزانه و برنامه غذایی و تمرینی بازتنظیم می‌شود.</small>
+          </div>
+        </div>
+        <div id="settingsGoalsGrid" class="goal-options-grid"></div>
+        <button type="button" id="saveGoalBtn" class="btn btn-primary">اعمال هدف جدید</button>
+      </div>
+
+      <div class="card">
+        <h3>تنظیمات برنامه تمرینی</h3>
+        <div class="grid-3" style="margin:12px 0">
+          <label class="field">
+            <span class="field-label">نوع برنامه</span>
+            <select id="setWorkoutMode" class="select-input">
+              <option value="gym">بدنسازی باشگاهی (با گیف)</option>
+              <option value="home">تمرین خانگی و هوازی</option>
+              <option value="none">بدون تمرین (فقط غذایی)</option>
+            </select>
+          </label>
+          <label class="field" id="setLevelWrap">
+            <span class="field-label">سطح</span>
+            <select id="setWorkoutLevel" class="select-input">
+              <option value="beginner">مبتدی</option>
+              <option value="medium">متوسط</option>
+              <option value="advanced">پیشرفته</option>
+            </select>
+          </label>
+          <label class="field" id="setDaysWrap">
+            <span class="field-label">تعداد روز در هفته</span>
+            <select id="setWorkoutDays" class="select-input">
+              <option value="3">۳ روز</option>
+              <option value="4">۴ روز</option>
+              <option value="5">۵ روز</option>
+            </select>
+          </label>
+        </div>
+        <button type="button" id="saveWorkoutCfgBtn" class="btn btn-primary btn-sm">بروزرسانی برنامه تمرینی</button>
+      </div>
+
+      <div class="card">
+        <h3>ویرایش مشخصات بدنی</h3>
+        <form id="editProfileForm" novalidate style="margin-top:12px">
+          <div class="grid-3">
+            <label class="field">
+              <span class="field-label">نام</span>
+              <div class="input-box"><input id="epName"></div>
+            </label>
+            <label class="field">
+              <span class="field-label">جنسیت</span>
+              <select id="epGender" class="select-input">
+                <option value="male">آقا</option>
+                <option value="female">خانم</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">سن</span>
+              <div class="input-box"><input id="epAge" inputmode="numeric"></div>
+            </label>
+            <label class="field">
+              <span class="field-label">قد (cm)</span>
+              <div class="input-box"><input id="epHeight" inputmode="decimal"></div>
+            </label>
+            <label class="field">
+              <span class="field-label">وزن (kg)</span>
+              <div class="input-box"><input id="epWeight" inputmode="decimal"></div>
+            </label>
+            <label class="field">
+              <span class="field-label">کالری مصرفی قبلی</span>
+              <div class="input-box"><input id="epIntake" inputmode="numeric" placeholder="خودکار"></div>
+            </label>
+            <label class="field">
+              <span class="field-label">دور گردن (cm)</span>
+              <div class="input-box"><input id="epNeck" inputmode="decimal" placeholder="اختیاری"></div>
+            </label>
+            <label class="field">
+              <span class="field-label">دور کمر (cm)</span>
+              <div class="input-box"><input id="epWaist" inputmode="decimal" placeholder="اختیاری"></div>
+            </label>
+            <label class="field">
+              <span class="field-label">دور باسن (cm)</span>
+              <div class="input-box"><input id="epHip" inputmode="decimal" placeholder="اختیاری"></div>
+            </label>
+          </div>
+          <label class="field">
+            <span class="field-label">میزان فعالیت روزانه</span>
+            <select id="epActivity" class="select-input">
+              <option value="1.2">کم‌تحرک</option>
+              <option value="1.375">تحرک نسبی (۱ تا ۳ روز ورزش)</option>
+              <option value="1.55">فعال (۳ تا ۵ روز ورزش)</option>
+              <option value="1.725">بسیار فعال</option>
+            </select>
+          </label>
+          <button type="submit" class="btn btn-primary">ذخیره مشخصات</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>ورود با تشخیص چهره</h3>
+        <p id="faceEnrollmentStatus" class="small muted">هنوز چهره‌ای برای این حساب ثبت نشده است.</p>
+        <p class="small muted">سه نمونه از چهره‌ی خود ثبت کنید. فقط الگوی چهره در همین مرورگر ذخیره می‌شود؛ تصویر دوربین ذخیره یا به اینترنت ارسال نمی‌شود.</p>
+        <div class="actions-row">
+          <button type="button" id="enrollFaceBtn" class="btn btn-primary">ثبت چهره‌ی من</button>
+          <button type="button" id="removeFaceBtn" class="btn btn-danger" hidden>حذف الگوی چهره</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>مدیریت حساب</h3>
+        <div class="actions-row" style="margin-top:10px">
+          <button type="button" id="switchAccountBtn" class="btn btn-secondary">تعویض حساب کاربری</button>
+          <button type="button" id="deleteAccountBtn" class="btn btn-danger">حذف این حساب</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- نوار ناوبری پایینی ۵ تبی با دکمه مرکزی اسکن غذا -->
+  <nav id="bottomNav" class="bottom-nav" hidden>
+    <div class="bottom-nav-inner">
+      <button type="button" class="nav-item active" data-nav="dashboard">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        <span>داشبورد</span>
+      </button>
+      <button type="button" class="nav-item" data-nav="diet">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+        <span>تغذیه</span>
+      </button>
+      <button type="button" class="nav-scan-btn" data-nav="scan">
+        <span class="nav-scan-circle">
+          <svg class="ic ic-lg" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+        </span>
+        <span>اسکن غذا</span>
+      </button>
+      <button type="button" class="nav-item" data-nav="workout">
+        <svg class="ic" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
+        <span>تمرین</span>
+      </button>
+      <button type="button" class="nav-item" data-nav="settings">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>پروفایل</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- مودال ۱: انتخاب خوراکی و صفحه تعیین مقدار متناسب با واحد (Amount Page) -->
+  <div id="foodModal" class="modal-backdrop" hidden>
+    <div class="modal-box">
+      <div class="card-head">
+        <h3 id="foodModalTitle">ثبت خوراکی</h3>
+        <button type="button" class="icon-btn" data-close-modal="foodModal">✕</button>
+      </div>
+
+      <!-- لیست جستجو -->
+      <div id="foodPickerStep">
+        <div class="input-box">
+          <input id="singleFoodSearch" placeholder="جستجوی نام غذا (سیب، ماکارونی، مرغ، برنج، نان...)">
+        </div>
+        <div id="foodCatalogGrid" class="food-catalog-grid"></div>
+      </div>
+
+      <!-- صفحه انتخاب مقدار (Amount Sheet) -->
+      <div id="portionPickerStep" hidden>
+        <div id="portionFoodHeader" style="margin-bottom:16px"></div>
+
+        <label class="field">
+          <span class="field-label" id="portionUnitLabel">مقدار مصرفی</span>
+          <div class="portion-stepper">
+            <button type="button" id="stepMinusBtn" class="step-btn">−</button>
+            <div class="input-box" style="flex:1">
+              <input id="portionAmountInput" type="number" step="any" style="text-align:center;font-weight:800;font-size:1.1rem">
+              <em id="portionUnitSuffix">گرم</em>
+            </div>
+            <button type="button" id="stepPlusBtn" class="step-btn">+</button>
+          </div>
+          <input id="portionRangeInput" type="range" style="width:100%;accent-color:var(--primary)">
+        </label>
+
+        <div id="portionPresetsRow" class="chips-row" style="margin-bottom:14px"></div>
+
+        <label class="field">
+          <span class="field-label">ثبت در وعده</span>
+          <select id="portionMealSelect" class="select-input">
+            <option value="breakfast">صبحانه</option>
+            <option value="snack">میان‌وعده</option>
+            <option value="lunch" selected>ناهار</option>
+            <option value="dinner">شام</option>
+          </select>
+        </label>
+
+        <div id="portionLiveMacros" class="preview-banner"></div>
+
+        <div class="actions-row">
+          <button type="button" id="confirmAddFoodBtn" class="btn btn-primary" style="flex:1">ثبت در کالری روزانه</button>
+          <button type="button" id="backToFoodListBtn" class="btn btn-secondary">تغییر غذا</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال ۲: مشخصات فنی موتور بینایی آفلاین -->
+  <div id="modelInfoModal" class="modal-backdrop" hidden>
+    <div class="modal-box">
+      <div class="card-head">
+        <h3>موتور بینایی آفلاین (بدون API)</h3>
+        <button type="button" class="icon-btn" data-close-modal="modelInfoModal">✕</button>
+      </div>
+      <div class="comp-grid" style="margin-bottom:14px">
+        <div class="comp-stat">
+          <span class="dot lean-dot"></span>
+          <div><small>معماری شبکه عصبی</small><b>MobileCLIP-S0 (FP16)</b></div>
+        </div>
+        <div class="comp-stat">
+          <span class="dot fat-dot"></span>
+          <div><small>حجم مدل باندل‌شده</small><b>۲۱.۸ مگابایت (ONNX)</b></div>
+        </div>
+        <div class="comp-stat">
+          <span class="dot ffmi-dot"></span>
+          <div><small>شتاب‌دهنده محلی</small><b>WebAssembly SIMD</b></div>
+        </div>
+        <div class="comp-stat">
+          <span class="dot ideal-dot"></span>
+          <div><small>پوشش بانک امبدینگ</small><b id="modelInfoClasses">۴۵ غذا + فیلتر غیرغذا</b></div>
+        </div>
+      </div>
+      <p id="modelInfoStatusNote" class="small muted" style="line-height:1.7;margin-bottom:14px">
+        تمام پردازش تصویر مستقیماً روی پردازنده گوشی یا سیستم کاربر انجام می‌شود؛ هیچ عکسی به سرور بیرونی ارسال نمی‌شود، نیازی به کلید API ندارد و در حالت قطع کامل اینترنت هم بدون وقفه کار می‌کند.
+      </p>
+      <button type="button" class="btn btn-primary btn-block" data-close-modal="modelInfoModal">بستن</button>
+    </div>
+  </div>
+
+  <!-- مودال ۳: نمایش گیف حرکت ورزشی -->
+  <div id="gifModal" class="modal-backdrop" hidden>
+    <div class="modal-box">
+      <div class="card-head">
+        <h3 id="gifModalTitle">نحوه اجرای حرکت</h3>
+        <button type="button" class="icon-btn" data-close-modal="gifModal">✕</button>
+      </div>
+      <img id="gifModalImg" src="" alt="" style="width:100%;border-radius:14px;margin-bottom:12px;background:#000">
+      <p id="gifModalDesc" class="small muted" style="margin:0"></p>
+    </div>
+  </div>
+
+  <!-- مودال ۴: ثبت سایز دور کمر و گردن -->
+  <div id="measureModal" class="modal-backdrop" hidden>
+    <div class="modal-box">
+      <div class="card-head">
+        <h3>محاسبه دقیق درصد چربی (US Navy)</h3>
+        <button type="button" class="icon-btn" data-close-modal="measureModal">✕</button>
+      </div>
+      <p class="small muted">دور گردن و دور کمر (در راستای ناف) را به سانتی‌متر وارد کنید.</p>
+      <form id="measureModalForm" novalidate>
+        <div class="grid-2">
+          <label class="field">
+            <span class="field-label">دور گردن (cm)</span>
+            <div class="input-box"><input id="mmNeck" inputmode="decimal" placeholder="۳۸"></div>
+          </label>
+          <label class="field">
+            <span class="field-label">دور کمر (cm)</span>
+            <div class="input-box"><input id="mmWaist" inputmode="decimal" placeholder="۸۶"></div>
+          </label>
+        </div>
+        <label class="field" id="mmHipField" hidden>
+          <span class="field-label">دور باسن (cm - خانم‌ها)</span>
+          <div class="input-box"><input id="mmHip" inputmode="decimal" placeholder="۹۸"></div>
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">ثبت و بروزرسانی نمودار</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="faceAuthModal" class="modal-backdrop" hidden>
+    <section class="modal-box face-auth-box" role="dialog" aria-modal="true" aria-labelledby="faceAuthTitle" tabindex="-1">
+      <div class="card-head">
+        <h3 id="faceAuthTitle">ورود با تشخیص چهره</h3>
+        <button type="button" id="closeFaceAuthBtn" class="icon-btn" aria-label="بستن پنجره‌ی تشخیص چهره">✕</button>
+      </div>
+      <p id="faceAuthHelp" class="small muted"></p>
+      <div class="face-camera-preview">
+        <video id="faceAuthVideo" autoplay playsinline muted aria-label="پیش‌نمایش دوربین تشخیص چهره"></video>
+        <div class="face-camera-guide" aria-hidden="true"></div>
+      </div>
+      <label class="field" id="facePasswordField" hidden>
+        <span class="field-label">رمز فعلی حساب برای ثبت چهره</span>
+        <div class="input-box"><input id="faceEnrollPassword" type="password" autocomplete="current-password"></div>
+      </label>
+      <p id="faceAuthStatus" class="small" role="status" aria-live="polite">برای شروع، دسترسی به دوربین را فعال کنید.</p>
+      <progress id="faceAuthProgress" max="3" value="0" aria-label="نمونه‌های تأییدشده‌ی چهره"></progress>
+      <button type="button" id="startFaceAuthBtn" class="btn btn-primary btn-block">روشن کردن دوربین و شروع</button>
+      <p class="small muted" style="margin-bottom:0">دوربین فقط با زدن دکمه‌ی شروع روشن می‌شود و هنگام بستن این پنجره خاموش خواهد شد.</p>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="vendor/ort/ort.wasm.min.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/food_embeddings.js" defer></script>
+  <script src="js/metrics.js" defer></script>
+  <script src="js/charts.js" defer></script>
+  <script src="js/detector.js" defer></script>
+  <script src="js/face-matcher.js" defer></script>
+  <script src="js/face-login.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

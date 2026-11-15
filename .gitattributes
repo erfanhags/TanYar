@@ -1,0 +1,12 @@
+* text=auto
+*.bat text eol=crlf
+*.md text eol=lf
+*.js text eol=lf
+*.py text eol=lf
+*.onnx binary
+*.wasm binary
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary

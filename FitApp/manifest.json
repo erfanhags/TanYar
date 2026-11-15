@@ -1,0 +1,20 @@
+{
+  "short_name": "تن‌یار",
+  "name": "تن‌یار — تغذیه، اسکن غذا و تمرین",
+  "description": "کنترل کالری، تشخیص هوشمند غذا، آنالیز ترکیب بدنی و برنامه تمرینی",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "fa-IR",
+  "background_color": "#0d0d10",
+  "theme_color": "#ff5733",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
