@@ -1,0 +1,637 @@
+{
+  "food": {
+    "onnx": {
+      "n": 200,
+      "correct": 172,
+      "top1": 0.86,
+      "offered_hit": 0.97,
+      "rejected": 0,
+      "mean_display_confidence": 0.790785657781951,
+      "high_confidence_n": 116,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.8051000619915237,
+        0.9013308137472852
+      ]
+    },
+    "heuristic": {
+      "n": 200,
+      "correct": 2,
+      "top1": 0.01,
+      "offered_hit": 0.01,
+      "rejected": 0,
+      "mean_display_confidence": 0.91635,
+      "high_confidence_n": 200,
+      "high_confidence_wrong": 198,
+      "nominal_wilson95": [
+        0.0027466006037749346,
+        0.03572248519617954
+      ]
+    }
+  },
+  "fruit": {
+    "onnx": {
+      "n": 120,
+      "correct": 116,
+      "top1": 0.9666666666666667,
+      "offered_hit": 0.9916666666666667,
+      "rejected": 1,
+      "mean_display_confidence": 0.9029093372880134,
+      "high_confidence_n": 98,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.9174184205147198,
+        0.9869626598330794
+      ]
+    },
+    "heuristic": {
+      "n": 120,
+      "correct": 21,
+      "top1": 0.175,
+      "offered_hit": 0.4083333333333333,
+      "rejected": 0,
+      "mean_display_confidence": 0.9046666666666666,
+      "high_confidence_n": 120,
+      "high_confidence_wrong": 99,
+      "nominal_wilson95": [
+        0.11740448670592563,
+        0.25275868948042857
+      ]
+    }
+  },
+  "all": {
+    "onnx": {
+      "n": 320,
+      "correct": 288,
+      "top1": 0.9,
+      "offered_hit": 0.978125,
+      "rejected": 1,
+      "mean_display_confidence": 0.8328320375967244,
+      "high_confidence_n": 214,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.8622375682825127,
+        0.9282723600281182
+      ]
+    },
+    "heuristic": {
+      "n": 320,
+      "correct": 23,
+      "top1": 0.071875,
+      "offered_hit": 0.159375,
+      "rejected": 0,
+      "mean_display_confidence": 0.91196875,
+      "high_confidence_n": 320,
+      "high_confidence_wrong": 297,
+      "nominal_wilson95": [
+        0.04836811178148315,
+        0.10553923057354472
+      ]
+    }
+  },
+  "classes": {
+    "apple": {
+      "n": 30,
+      "correct": 27,
+      "top1": 0.9,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.8483832176398811,
+      "high_confidence_n": 19,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.7437855868473339,
+        0.9654007400402839
+      ]
+    },
+    "avocado": {
+      "n": 30,
+      "correct": 29,
+      "top1": 0.9666666666666667,
+      "offered_hit": 0.9666666666666667,
+      "rejected": 1,
+      "mean_display_confidence": 0.7991832726372989,
+      "high_confidence_n": 20,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.8332924860304112,
+        0.9940915620051425
+      ]
+    },
+    "banana": {
+      "n": 30,
+      "correct": 30,
+      "top1": 1.0,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.9855781996551682,
+      "high_confidence_n": 30,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.8864829086095221,
+        1.0
+      ]
+    },
+    "chocolate_cake": {
+      "n": 20,
+      "correct": 17,
+      "top1": 0.85,
+      "offered_hit": 0.95,
+      "rejected": 0,
+      "mean_display_confidence": 0.8505419938256165,
+      "high_confidence_n": 14,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.6395767041130426,
+        0.9476322080405041
+      ]
+    },
+    "french_fries": {
+      "n": 20,
+      "correct": 20,
+      "top1": 1.0,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.938290509713655,
+      "high_confidence_n": 18,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.8388698745050667,
+        1.0
+      ]
+    },
+    "grape": {
+      "n": 30,
+      "correct": 30,
+      "top1": 1.0,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.9784926592197051,
+      "high_confidence_n": 29,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.8864829086095221,
+        1.0
+      ]
+    },
+    "greek_salad": {
+      "n": 20,
+      "correct": 15,
+      "top1": 0.75,
+      "offered_hit": 0.95,
+      "rejected": 0,
+      "mean_display_confidence": 0.657315086264035,
+      "high_confidence_n": 6,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.5312949900419365,
+        0.888139947210597
+      ]
+    },
+    "grilled_salmon": {
+      "n": 20,
+      "correct": 19,
+      "top1": 0.95,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.7630963642014487,
+      "high_confidence_n": 9,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.7638641064874331,
+        0.9911187805671268
+      ]
+    },
+    "hamburger": {
+      "n": 20,
+      "correct": 17,
+      "top1": 0.85,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.8343566537639543,
+      "high_confidence_n": 15,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.6395767041130426,
+        0.9476322080405041
+      ]
+    },
+    "ice_cream": {
+      "n": 20,
+      "correct": 19,
+      "top1": 0.95,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.8537284121509953,
+      "high_confidence_n": 14,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.7638641064874331,
+        0.9911187805671268
+      ]
+    },
+    "omelette": {
+      "n": 20,
+      "correct": 11,
+      "top1": 0.55,
+      "offered_hit": 0.9,
+      "rejected": 0,
+      "mean_display_confidence": 0.5695033439578565,
+      "high_confidence_n": 2,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.3420820083075997,
+        0.7418049791429071
+      ]
+    },
+    "pizza": {
+      "n": 20,
+      "correct": 19,
+      "top1": 0.95,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.9029672693037749,
+      "high_confidence_n": 17,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.7638641064874331,
+        0.9911187805671268
+      ]
+    },
+    "spaghetti_bolognese": {
+      "n": 20,
+      "correct": 20,
+      "top1": 1.0,
+      "offered_hit": 1.0,
+      "rejected": 0,
+      "mean_display_confidence": 0.9600159190006763,
+      "high_confidence_n": 19,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.8388698745050667,
+        1.0
+      ]
+    },
+    "steak": {
+      "n": 20,
+      "correct": 15,
+      "top1": 0.75,
+      "offered_hit": 0.9,
+      "rejected": 0,
+      "mean_display_confidence": 0.5780410256374978,
+      "high_confidence_n": 2,
+      "high_confidence_wrong": 0,
+      "nominal_wilson95": [
+        0.5312949900419365,
+        0.888139947210597
+      ]
+    }
+  },
+  "timing": {
+    "median_inference_ms": 130.0,
+    "p95_inference_ms": 158,
+    "median_end_to_end_ms": 153.93990000000122
+  },
+  "diagnostics": {
+    "onnx": {
+      "n": 16,
+      "rejected": 7
+    },
+    "heuristic": {
+      "n": 16,
+      "rejected": 0
+    }
+  },
+  "exact_duplicates": {},
+  "unique_all": {
+    "n": 320,
+    "correct": 288,
+    "top1": 0.9,
+    "offered_hit": 0.978125,
+    "rejected": 1,
+    "mean_display_confidence": 0.8328320375967244,
+    "high_confidence_n": 214,
+    "high_confidence_wrong": 0,
+    "nominal_wilson95": [
+      0.8622375682825127,
+      0.9282723600281182
+    ]
+  },
+  "wrong_predictions": [
+    {
+      "id": "food101_1781",
+      "expected": "sf_salad",
+      "predicted": {
+        "id": "sf_cheese",
+        "name": "پنیر سفید",
+        "confidence": 0.4977346261224052,
+        "cosine": 0.2236520649573458
+      }
+    },
+    {
+      "id": "food101_1802",
+      "expected": "sf_salad",
+      "predicted": {
+        "id": "sf_cheese",
+        "name": "پنیر سفید",
+        "confidence": 0.4988484861010816,
+        "cosine": 0.25206722731950887
+      }
+    },
+    {
+      "id": "food101_1874",
+      "expected": "sf_salad",
+      "predicted": {
+        "id": "sf_olivieh",
+        "name": "سالاد الویه / سالاد ماکارونی",
+        "confidence": 0.704265109600925,
+        "cosine": 0.26846404225463283
+      }
+    },
+    {
+      "id": "food101_19752",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_fesenjan",
+        "name": "خورش فسنجان",
+        "confidence": 0.3441558576729641,
+        "cosine": 0.197159216826731
+      }
+    },
+    {
+      "id": "food101_1979",
+      "expected": "sf_salad",
+      "predicted": {
+        "id": "sf_chicken",
+        "name": "سینه مرغ / جوجه‌کباب",
+        "confidence": 0.44718431751614623,
+        "cosine": 0.22457015532446073
+      }
+    },
+    {
+      "id": "food101_19827",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_fesenjan",
+        "name": "خورش فسنجان",
+        "confidence": 0.6081885592928028,
+        "cosine": 0.21043140041969446
+      }
+    },
+    {
+      "id": "food101_19843",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_olivieh",
+        "name": "سالاد الویه / سالاد ماکارونی",
+        "confidence": 0.4632386034241911,
+        "cosine": 0.23146637205109394
+      }
+    },
+    {
+      "id": "food101_19846",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_fish",
+        "name": "ماهی (قزل‌آلا / تن)",
+        "confidence": 0.47127607809756483,
+        "cosine": 0.23573638911316652
+      }
+    },
+    {
+      "id": "food101_19899",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_veggies",
+        "name": "هویج / کلم‌بروکلی و سبزیجات پخته",
+        "confidence": 0.5132136204566298,
+        "cosine": 0.21927429833973133
+      }
+    },
+    {
+      "id": "food101_1990",
+      "expected": "sf_salad",
+      "predicted": {
+        "id": "sf_mixed_rice",
+        "name": "پلو مخلوط (لوبیاپلو / عدس‌پلو / زرشک‌پلو)",
+        "confidence": 0.5781113392705909,
+        "cosine": 0.25015177896980745
+      }
+    },
+    {
+      "id": "food101_19918",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_fish",
+        "name": "ماهی (قزل‌آلا / تن)",
+        "confidence": 0.5495026723795118,
+        "cosine": 0.22762454006764316
+      }
+    },
+    {
+      "id": "food101_19928",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_fish",
+        "name": "ماهی (قزل‌آلا / تن)",
+        "confidence": 0.3913360804731914,
+        "cosine": 0.20393510375300442
+      }
+    },
+    {
+      "id": "food101_19935",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_fish",
+        "name": "ماهی (قزل‌آلا / تن)",
+        "confidence": 0.40590201175935486,
+        "cosine": 0.241459419636547
+      }
+    },
+    {
+      "id": "food101_19973",
+      "expected": "sf_egg",
+      "predicted": {
+        "id": "sf_fish",
+        "name": "ماهی (قزل‌آلا / تن)",
+        "confidence": 0.7060808447764636,
+        "cosine": 0.21468283039134448
+      }
+    },
+    {
+      "id": "food101_24500",
+      "expected": "sf_fish",
+      "predicted": {
+        "id": "sf_chicken",
+        "name": "سینه مرغ / جوجه‌کباب",
+        "confidence": 0.5372696233116055,
+        "cosine": 0.22453977861517194
+      }
+    },
+    {
+      "id": "food101_2652",
+      "expected": "sf_pizza",
+      "predicted": {
+        "id": "sf_sangak",
+        "name": "نان سنتی (سنگک / بربری / لواش)",
+        "confidence": 0.4229965110255517,
+        "cosine": 0.20682361107102523
+      }
+    },
+    {
+      "id": "food101_3353",
+      "expected": "sf_cake",
+      "predicted": {
+        "id": "sf_icecream",
+        "name": "بستنی",
+        "confidence": 0.61971911740917,
+        "cosine": 0.20390538758802318
+      }
+    },
+    {
+      "id": "food101_3383",
+      "expected": "sf_cake",
+      "predicted": {
+        "id": "sf_beef",
+        "name": "گوشت قرمز / کباب / استیک",
+        "confidence": 0.35461274573553075,
+        "cosine": 0.19951554483905548
+      }
+    },
+    {
+      "id": "food101_3426",
+      "expected": "sf_cake",
+      "predicted": {
+        "id": "sf_icecream",
+        "name": "بستنی",
+        "confidence": 0.7942769670735038,
+        "cosine": 0.2444622702623603
+      }
+    },
+    {
+      "id": "food101_6057",
+      "expected": "sf_beef",
+      "predicted": {
+        "id": "sf_fish",
+        "name": "ماهی (قزل‌آلا / تن)",
+        "confidence": 0.7344170331397284,
+        "cosine": 0.24575894012911287
+      }
+    },
+    {
+      "id": "food101_6091",
+      "expected": "sf_beef",
+      "predicted": {
+        "id": "sf_potato",
+        "name": "سیب‌زمینی آب‌پز / تنوری",
+        "confidence": 0.4346857264551104,
+        "cosine": 0.21510578396755256
+      }
+    },
+    {
+      "id": "food101_6157",
+      "expected": "sf_beef",
+      "predicted": {
+        "id": "sf_fesenjan",
+        "name": "خورش فسنجان",
+        "confidence": 0.4934716377591542,
+        "cosine": 0.21144165327351444
+      }
+    },
+    {
+      "id": "food101_6177",
+      "expected": "sf_beef",
+      "predicted": {
+        "id": "sf_fish",
+        "name": "ماهی (قزل‌آلا / تن)",
+        "confidence": 0.5109408209129502,
+        "cosine": 0.25275748760627625
+      }
+    },
+    {
+      "id": "food101_6216",
+      "expected": "sf_beef",
+      "predicted": {
+        "id": "sf_ghormeh",
+        "name": "خورش قورمه‌سبزی",
+        "confidence": 0.2704833033270575,
+        "cosine": 0.2188881412783894
+      }
+    },
+    {
+      "id": "food101_797",
+      "expected": "sf_burger",
+      "predicted": {
+        "id": "sf_fries",
+        "name": "سیب‌زمینی سرخ‌کرده",
+        "confidence": 0.5795963906595207,
+        "cosine": 0.22353241077342945
+      }
+    },
+    {
+      "id": "food101_849",
+      "expected": "sf_burger",
+      "predicted": {
+        "id": "sf_fries",
+        "name": "سیب‌زمینی سرخ‌کرده",
+        "confidence": 0.5609804620749759,
+        "cosine": 0.21948241098663732
+      }
+    },
+    {
+      "id": "food101_8809",
+      "expected": "sf_icecream",
+      "predicted": {
+        "id": "sf_yogurt",
+        "name": "ماست",
+        "confidence": 0.4866162103787783,
+        "cosine": 0.2477548968497622
+      }
+    },
+    {
+      "id": "food101_909",
+      "expected": "sf_burger",
+      "predicted": {
+        "id": "sf_fries",
+        "name": "سیب‌زمینی سرخ‌کرده",
+        "confidence": 0.3704932928048926,
+        "cosine": 0.20736476116937325
+      }
+    },
+    {
+      "id": "fruit_apple_0006",
+      "expected": "sf_apple",
+      "predicted": {
+        "id": "sf_peach",
+        "name": "هلو / شلیل",
+        "confidence": 0.6118591556927345,
+        "cosine": 0.22732561967381454
+      }
+    },
+    {
+      "id": "fruit_apple_0024",
+      "expected": "sf_apple",
+      "predicted": {
+        "id": "sf_peach",
+        "name": "هلو / شلیل",
+        "confidence": 0.7063547787785578,
+        "cosine": 0.24388561248128468
+      }
+    },
+    {
+      "id": "fruit_apple_0025",
+      "expected": "sf_apple",
+      "predicted": {
+        "id": "sf_peach",
+        "name": "هلو / شلیل",
+        "confidence": 0.7863165910180748,
+        "cosine": 0.27260781740972806
+      }
+    },
+    {
+      "id": "fruit_avocado_0001",
+      "expected": "sf_avocado",
+      "predicted": null
+    }
+  ]
+}

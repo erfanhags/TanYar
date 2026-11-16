@@ -1,0 +1,12 @@
+{
+  "stderr": "C:\\Users\\Reza\\Desktop\\tan_yar\\TanYar\\FitApp\\server.js:29\r\n  const safeUrl = decodeURIComponent((req.url || '/').split('?')[0]);\r\n                  ^\r\n\r\nURIError: URI malformed\r\n    at decodeURIComponent (<anonymous>)\r\n    at Server.<anonymous> (C:\\Users\\Reza\\Desktop\\tan_yar\\TanYar\\FitApp\\server.js:29:19)\r\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\r\n\r\nNode.js v26.2.0\r\n",
+  "stdout": "====================================================\n  TanYar (100% Offline Vision AI) is running!\n  Desktop : http://localhost:5190\n  Mobile  : http://192.168.128.1:5190 (Same Wi-Fi)\n====================================================\n",
+  "requestError": "ECONNRESET",
+  "exitCode": 1,
+  "signal": null,
+  "prefixCheck": {
+    "root": "C:\\Users\\Reza\\Desktop\\tan_yar\\TanYar\\FitApp",
+    "sibling": "C:\\Users\\Reza\\Desktop\\tan_yar\\TanYar\\FitApp_sibling\\example.txt",
+    "wouldBeAllowed": true
+  }
+}

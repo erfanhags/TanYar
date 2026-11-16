@@ -1,0 +1,150 @@
+TanYar food recognition evaluation
+Evaluation run: 2026-11-16; report committed: 2026-11-17
+Application baseline: c90af2f
+
+نتیجه اصلی
+مدل واقعی روی ۳۲۰ تصویر، ۲۸۸ انتخاب اول صحیح داشت: ۹۰ درصد.
+غذا: ۱۷۲ از ۲۰۰، معادل ۸۶ درصد.
+میوه: ۱۱۶ از ۱۲۰، معادل ۹۶٫۷ درصد.
+حالت پشتیبان مبتنی بر رنگ: ۲۳ از ۳۲۰، معادل ۷٫۲ درصد؛ با میانگین درصد اطمینان نمایشی ۹۱٫۲ درصد.
+این نتیجه فقط مربوط به نمونه‌های آزمایش‌شده است و دقت تمام غذاها یا استفاده واقعی با دوربین نیست.
+کد اصلی برنامه و مدل در این بررسی تغییر نکردند.
+
+Method
+- Actual unmodified detector.js, data.js, embeddings and bundled ONNX WASM
+  runtime executed in headless Chrome 157 on Windows, AMD Ryzen 7 5800H.
+- All 45 food classes and six negative embeddings remained available.
+- Cross-origin isolation enabled; four WASM threads; service worker blocked
+  to ensure the current files were loaded. One warm-up excluded from timings.
+- 200 Food-101 validation images: seed 20261116, 20 randomly selected from
+  each of ten preselected classes' complete 250-image validation pools.
+  The hosted split has non-alphabetical 250-image class blocks; class labels
+  were inspected before sampling. No selection depended on predictions.
+- 120 FruitDet images: all 30 available images for each of apple, avocado,
+  banana and grape. Dataset revision, row indices, label mappings and image
+  SHA-256 values are recorded in manifest.json.
+- Top-1 measures whether the first returned food matches the mapped label.
+  Rejected food images count as incorrect. No exact image-byte duplicates.
+- Model downloads were deliberately blocked in a separate browser page to
+  evaluate the existing heuristic fallback on the same 320 images.
+- No application changes, retraining, prompt tuning or threshold tuning.
+
+Results (correct / tested; top-1 accuracy)
+Food:                 172 / 200; 86.0%
+Fruit:                116 / 120; 96.7%
+Combined:             288 / 320; 90.0%
+Heuristic food:         2 / 200;  1.0%
+Heuristic fruit:       21 / 120; 17.5%
+Heuristic combined:    23 / 320;  7.2%
+
+Per class, main model:
+Apple                  27 / 30;  90.0%
+Avocado                29 / 30;  96.7%
+Banana                 30 / 30; 100.0%
+Grape                  30 / 30; 100.0%
+Chocolate cake         17 / 20;  85.0%
+French fries           20 / 20; 100.0%
+Greek salad            15 / 20;  75.0%
+Grilled salmon         19 / 20;  95.0%
+Hamburger              17 / 20;  85.0%
+Ice cream              19 / 20;  95.0%
+Omelette               11 / 20;  55.0%
+Pizza                  19 / 20;  95.0%
+Spaghetti bolognese     20 / 20; 100.0%
+Steak                  15 / 20;  75.0%
+
+The correct label appeared somewhere in the returned suggestions for
+313 / 320 images (97.8%). This is a UI suggestion-hit rate, not standard
+top-5 accuracy: the implementation returns at most four suggestions and
+filters scores below 0.05. Main-model scores >= 0.80 occurred on 214 images,
+all correct in this sample; this does not establish probability calibration.
+The heuristic displayed >= 0.80 on every image, including 297 mistakes.
+Main-model median inference: 130 ms; p95: 158 ms.
+Median complete evaluation call: about 154 ms, including preprocessing and
+browser automation overhead. These desktop timings do not predict phone speed.
+
+Findings
+1. High: fallback predictions are presented with hard-coded confidence and
+   timing values. detector.js:190-283, 385. A failed model load silently
+   produces a color-based food guess instead of an explicit unavailable
+   result. The measured fallback accuracy above shows why this is misleading.
+2. Food rejection is weak on diagnostic inputs. Of eight uniform-color
+   images and eight existing anatomical illustrations, the main model
+   rejected seven and labeled nine as food; the fallback rejected none.
+   Black was labeled rice and white milk. See detector.js:343 and the
+   diagnostics in results.json. This small synthetic/illustration set is
+   a diagnostic, not a real-world non-food accuracy benchmark.
+3. Displayed confidence is a softmax renormalized over only the top five
+   foods, with non-food classes excluded, then clamped. detector.js:354-370.
+   No calibration dataset or calibration evaluation was found in this repo.
+   The display therefore cannot be interpreted as measured model accuracy.
+   app.js:1162 also defaults to 95% after manual alternative selection.
+4. Live scanning stretches the camera frame to 256 x 256 before inference
+   (app.js:942), while uploaded images preserve aspect ratio and use a center
+   crop. Uploaded-image accuracy does not validate this separate live path.
+5. Quantity and calories come from catalog defaultAmt and user input
+   (app.js:950, 1129). The model does not estimate portion weight, ingredients,
+   object count or calorie accuracy from the image.
+6. High: an invalid percent-encoded URL crashes server.js at line 29 with
+   URIError. Reproduced against a separate temporary instance; exit code 1.
+   server-audit.json contains evidence. Its line-33 path-prefix containment
+   check also accepts sibling path names starting with FitApp; the audit
+   demonstrates the path calculation, not an actual sibling-file disclosure.
+7. Accounts/passwords are stored in browser localStorage (app.js:113, 356).
+   This is already documented in README and is not production authentication.
+
+Limits
+- Only 14 of 45 food labels were evaluated. Iranian dishes such as ghormeh
+  sabzi, gheymeh and fesenjan were not measured.
+- Four fruit types do not establish accuracy for every fruit. FruitDet can
+  include similar scenes; no exact duplicate files does not prove independence.
+- Public-image overlap with the pretrained model's training data is unknown.
+- Dataset labels were retained even for mixed plates or small/occluded fruit.
+  Errors can reflect these ambiguities as well as model limitations.
+- No live camera, phone, offline PWA or representative real-world non-food
+  dataset evaluation was completed.
+- Nominal Wilson intervals in summary.json assume independent observations;
+  they are descriptive and do not capture domain shift or dataset dependence.
+
+Verification
+- 320 neural inferences and 320 forced-fallback inferences completed without
+  evaluation errors. All neural results confirmed provider=onnx.
+- All 51 embedding vectors have dimension 512, norms approximately one,
+  and all 45 food IDs map to catalog entries.
+- node --test: nine existing face-login tests passed; no pre-existing food
+  accuracy tests were found.
+- Python face tests could not initialize: Python 3.11 lacks optional dlib.
+  No face-worker Python tests ran. This is unrelated to the ONNX food model.
+
+Reproduction (PowerShell, from this evaluation directory)
+1. npm ci
+2. py -3.11 -m pip install Pillow
+3. py -3.11 collect.py
+4. In a separate terminal:
+   $env:NO_OPEN='1'
+   $env:PORT='5189'
+   node ../../FitApp/server.js
+5. node evaluate.cjs
+6. py -3.11 summarize.py
+7. Optional isolated server diagnostic: node audit-server.cjs
+
+Chrome must be installed. The evaluator expects http://localhost:5189;
+ensure that port is free before starting the server. Downloads may be rate
+limited. Cold downloads query the current hosted Food-101 split; compare new
+image hashes with the committed manifest before claiming exact reproduction.
+Evaluation scripts overwrite their generated JSON output when rerun.
+Images, metadata cache, dependencies and intermediate output are excluded
+from Git. The original downloaded images remain locally in the sibling
+workspace evaluation/2026-11-16/images directory.
+
+Sources
+Food-101: https://huggingface.co/datasets/ethz/food101
+FruitDet: https://huggingface.co/datasets/sirunchained/fruit-dataset
+Dataset rights remain with their sources; downloaded images are not committed.
+
+Suggested next steps
+Replace silent high-confidence fallback with an explicit model-unavailable
+state; evaluate rejection and score calibration on a separate labeled split;
+align live-camera preprocessing with uploads; expand testing to Iranian food
+and user-camera images; handle malformed request URLs and use proper path
+containment. These are findings and proposals, not implemented fixes.
